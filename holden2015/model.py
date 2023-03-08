@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class Encoder(nn.Module):
     def __init__(self, latent_dims, n_hidden):
         super(Encoder, self).__init__()
@@ -58,5 +59,3 @@ class Decoder(nn.Module):
         x = self.decoder_cnn(x)
         x = torch.sigmoid(x)
         return x
-
-

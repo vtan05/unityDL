@@ -2,6 +2,7 @@ import random
 import numpy as np
 import torch
 
+
 def train(encoder, decoder, device, dataloader, loss_fn, optimizer):
     encoder.train()
     decoder.train()
@@ -18,9 +19,9 @@ def train(encoder, decoder, device, dataloader, loss_fn, optimizer):
         loss.backward()
         optimizer.step()
 
-        print('\t partial train loss (single batch): %f' % (loss.data))
         train_loss.append(loss.detach().cpu().numpy())
     return np.mean(train_loss)
+
 
 def test(encoder, decoder, device, dataloader, loss_fn):
     encoder.eval()
