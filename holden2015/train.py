@@ -8,10 +8,10 @@ def train(encoder, decoder, device, dataloader, loss_fn, optimizer):
     decoder.train()
     train_loss = []
 
-    for image_batch, _ in dataloader:
+    for image_batch in dataloader:
         image_batch = image_batch.to(device)
-        encoded_data = encoder(image_batch)
-        decoded_data = decoder(encoded_data)
+        encoded_data, indices = encoder(image_batch)
+        decoded_data = decoder(encoded_data, indices)
 
         loss = loss_fn(decoded_data, image_batch)
 
@@ -30,10 +30,10 @@ def test(encoder, decoder, device, dataloader, loss_fn):
     with torch.no_grad():
         out = []
         label = []
-        for image_batch, _ in dataloader:
+        for image_batch in dataloader:
             image_batch = image_batch.to(device)
-            encoded_data = encoder(image_batch)
-            decoded_data = decoder(encoded_data)
+            encoded_data, indices = encoder(image_batch)
+            decoded_data = decoder(encoded_data, indices)
 
             out.append(decoded_data.cpu())
             label.append(image_batch.cpu())

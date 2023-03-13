@@ -10,20 +10,20 @@ import plotly.express
 from model import Encoder, Decoder
 
 
-def viz_latent():
-    encoded_samples = []
-    for sample in tqdm(test_dataset):
-        label = sample[1]
-
-        encoder.eval()
-        with torch.no_grad():
-            encoded_img = encoder(img)
-
-        encoded_img = encoded_img.flatten().cpu().numpy()
-        encoded_sample = {f"Enc. Variable {i}": enc for i, enc in enumerate(encoded_img)}
-        encoded_sample['label'] = label
-        encoded_samples.append(encoded_sample)
-    encoded_samples = pd.DataFrame(encoded_samples)
+# def viz_latent():
+#     encoded_samples = []
+#     for sample in tqdm(test_dataset):
+#         label = sample[1]
+#
+#         encoder.eval()
+#         with torch.no_grad():
+#             encoded_img = encoder(img)
+#
+#         encoded_img = encoded_img.flatten().cpu().numpy()
+#         encoded_sample = {f"Enc. Variable {i}": enc for i, enc in enumerate(encoded_img)}
+#         encoded_sample['label'] = label
+#         encoded_samples.append(encoded_sample)
+#     encoded_samples = pd.DataFrame(encoded_samples)
 
 
 def show_image(img):

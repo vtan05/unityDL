@@ -1,8 +1,10 @@
 import torch
+from torchsummary import summary
 import torchvision
 from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 import matplotlib.pyplot as plt
+import numpy as np
 
 from model import Encoder, Decoder
 from train import train, test
@@ -10,19 +12,24 @@ from utils import SaveBestModel
 
 
 def run():
-    data_dir = 'dataset'
-    train_dataset = torchvision.datasets.MNIST(data_dir, train=True, download=True)
+    #data_dir = 'dataset'
+    #train_dataset = torchvision.datasets.MNIST(data_dir, train=True, download=True)
     # test_dataset = torchvision.datasets.MNIST(data_dir, train=False, download=True)
 
-    train_transform = transforms.Compose([transforms.ToTensor()])
+    #train_transform = transforms.Compose([transforms.ToTensor()])
     # test_transform = transforms.Compose([transforms.ToTensor()])
 
-    train_dataset.transform = train_transform
+    #train_dataset.transform = train_transform
     # test_dataset.transform = test_transform
 
-    m = len(train_dataset)
+    train_dataset = np.load('dataset/LAFAN1/processed/train.npy')
+    train_data = torch.Tensor(train_dataset)
 
-    train_data, val_data = random_split(train_dataset, [int(m - m * 0.2), int(m * 0.2)])
+    val_dataset = np.load('dataset/LAFAN1/processed/valid.npy')
+    val_data = torch.Tensor(val_dataset)
+
+    #m = len(train_dataset)
+    #train_data, val_data = random_split(train_dataset, [int(m - m * 0.2), int(m * 0.2)])
     batch_size = 256
 
     train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size)
@@ -33,7 +40,7 @@ def run():
     lr = 0.001
     torch.manual_seed(0)
     latent_dims = 4
-    n_hidden = 128
+    n_hidden = 256
 
     encoder = Encoder(latent_dims=latent_dims, n_hidden=n_hidden)
     decoder = Decoder(latent_dims=latent_dims, n_hidden=n_hidden)
